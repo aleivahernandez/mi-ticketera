@@ -145,11 +145,8 @@ if gc:
                         </div>
                         """, unsafe_allow_html=True)
 
-                        # --- NUEVO: Expansor para ver el detalle ---
-                        with st.expander("Ver detalle"):
-                            st.markdown(f"**Email:** {row.get('Email', 'No disponible')}")
-                            st.markdown("---")
-                            st.markdown("##### Descripción Completa:")
+                        # --- EDITADO: Expansor para ver solo la descripción ---
+                        with st.expander("Ver Descripción"):
                             st.write(row.get('Descripcion', 'No disponible'))
 
 
