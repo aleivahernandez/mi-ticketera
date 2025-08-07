@@ -7,12 +7,11 @@ import datetime
 # --- CONFIGURACIÓN DE LA PÁGINA ---
 st.set_page_config(
     page_title="Tablero de Innovación",
-    page_icon="💡",
+    page_icon="�",
     layout="wide"
 )
 
 # --- ESTILOS CSS PERSONALIZADOS ---
-# Inyectamos CSS para darle un aspecto moderno al tablero.
 st.markdown("""
 <style>
     /* Estilo para las columnas del Kanban */
@@ -23,6 +22,13 @@ st.markdown("""
         margin: 0.25rem;
     }
 
+    /* AÑADIDO: Línea separadora entre etapas */
+    /* Se añade un borde a la derecha de cada columna, excepto la última */
+    div[data-testid="stHorizontalBlock"] > div:not(:last-child) {
+        border-right: 2px solid #d1d5db; /* Color de la línea: gris claro */
+        padding-right: 1.5rem; /* Espacio entre la línea y el contenido de la columna */
+    }
+
     /* Estilo para las tarjetas de las ideas */
     .kanban-card {
         background-color: white;
@@ -30,10 +36,6 @@ st.markdown("""
         padding: 1rem;
         margin-bottom: 1rem;
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-    }
-    .kanban-card:hover {
-        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     }
     .kanban-card h3 {
         margin-top: 0;
@@ -143,7 +145,7 @@ if gc:
                         </div>
                         """, unsafe_allow_html=True)
 
-                        # El selector para mover la tarjeta se mantiene igual
+                        # El selector para mover la tarjeta
                         new_stage = st.selectbox(
                             f"Mover #{ticket_id}",
                             options=stages,
@@ -165,3 +167,4 @@ if gc:
                                 st.error(f"Error Crítico: No se pudo encontrar el ID '{ticket_id}'.")
                             except Exception as e:
                                 st.error(f"Error inesperado al actualizar: {e}")
+�
