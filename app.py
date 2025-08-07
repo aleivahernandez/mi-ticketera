@@ -7,7 +7,7 @@ import datetime
 # --- CONFIGURACIÓN DE LA PÁGINA ---
 st.set_page_config(
     page_title="Tablero de Innovación",
-    page_icon="�",
+    page_icon="💡",
     layout="wide"
 )
 
@@ -165,4 +165,3 @@ if gc:
                                 st.error(f"Error Crítico: No se pudo encontrar el ID '{ticket_id}'.")
                             except Exception as e:
                                 st.error(f"Error inesperado al actualizar: {e}")
-�
