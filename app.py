@@ -100,7 +100,7 @@ def load_data(_worksheet):
         data = _worksheet.get_all_records()
         df = pd.DataFrame(data)
         # Asegurarse que las columnas existan y tengan el tipo correcto
-        for col in ['ID Ticket', 'Estado', 'Prioridad', 'Título', 'Solicitante', 'Fecha Creacion', 'Descripcion']:
+        for col in ['ID Ticket', 'Estado', 'Prioridad', 'Título', 'Solicitante', 'Fecha Creacion', 'Descripcion', 'Email']:
             if col not in df.columns:
                 df[col] = '' # Usar string vacío como default
         if 'ID Ticket' in df.columns:
@@ -145,16 +145,12 @@ if gc:
                         </div>
                         """, unsafe_allow_html=True)
 
-                        # --- NUEVO: Botón para ver detalle en ventana emergente ---
-                        if st.button("Ver detalle", key=f"detail_{ticket_id}", use_container_width=True):
-                            with st.dialog("Detalle de la Idea"):
-                                st.subheader(f"Idea: {row['Título']}")
-                                st.markdown(f"**ID:** {ticket_id}")
-                                st.markdown(f"**Solicitante:** {row['Solicitante']} ({row['Email']})")
-                                st.markdown(f"**Prioridad:** {priority} | **Estado:** {stage}")
-                                st.markdown("---")
-                                st.markdown("#### Descripción Completa")
-                                st.write(row['Descripcion'])
+                        # --- NUEVO: Expansor para ver el detalle ---
+                        with st.expander("Ver detalle"):
+                            st.markdown(f"**Email:** {row.get('Email', 'No disponible')}")
+                            st.markdown("---")
+                            st.markdown("##### Descripción Completa:")
+                            st.write(row.get('Descripcion', 'No disponible'))
 
 
                         # El selector para mover la tarjeta
