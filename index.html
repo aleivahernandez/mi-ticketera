@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuevo Ticket de Soporte</title>
+    <title>Nueva Idea de Innovación</title>
     <!-- Tailwind CSS para un diseño moderno -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Fuente Inter de Google Fonts -->
@@ -34,8 +34,8 @@
     <div class="w-full max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-lg my-8">
         
         <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Crear un Nuevo Ticket</h1>
-            <p class="text-gray-500 mt-2">Completa el formulario para enviar tu solicitud.</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Registrar Nueva Idea</h1>
+            <p class="text-gray-500 mt-2">Completa el formulario para enviar tu iniciativa de innovación.</p>
         </div>
 
         <!-- Formulario de Ticket -->
@@ -80,20 +80,20 @@
 
                 <!-- Título -->
                 <div>
-                    <label for="titulo" class="block text-sm font-medium text-gray-700 mb-1">Título</label>
-                    <input type="text" id="titulo" name="titulo" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out" placeholder="Un resumen breve del problema">
+                    <label for="titulo" class="block text-sm font-medium text-gray-700 mb-1">Título de la Idea</label>
+                    <input type="text" id="titulo" name="titulo" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out" placeholder="Un resumen breve de la idea">
                 </div>
 
                 <!-- Descripción -->
                 <div>
-                    <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Descripción del Problema</label>
-                    <textarea id="description" name="description" rows="5" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out" placeholder="Por favor, detalla tu problema lo más posible..."></textarea>
+                    <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Descripción de la Idea</label>
+                    <textarea id="description" name="description" rows="5" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out" placeholder="Por favor, detalla tu idea lo más posible..."></textarea>
                 </div>
 
                 <!-- Botón de Envío -->
                 <div class="text-center">
                     <button type="submit" id="submitButton" class="w-full md:w-auto inline-flex items-center justify-center px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
-                        <span id="buttonText">Enviar Ticket</span>
+                        <span id="buttonText">Enviar Idea</span>
                         <div id="buttonSpinner" class="spinner hidden ml-3"></div>
                     </button>
                 </div>
@@ -113,7 +113,7 @@
         const statusMessage = document.getElementById('statusMessage');
 
         // IMPORTANTE: Pega aquí la URL de tu webhook de Make.com
-        const webhookUrl = 'https://hook.us2.make.com/hlkhtfl4nux57e667qn4zknfxmxh61kb'; 
+        const webhookUrl = 'YOUR_MAKE_WEBHOOK_URL_HERE'; // Reemplaza esto con tu URL real
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -136,7 +136,6 @@
                 description: formData.get('description'),
                 priority: formData.get('priority'),
                 createdAt: new Date().toISOString(),
-                // Se asigna la etapa inicial directamente aquí
                 estado: 'Enfocar' 
             };
 
@@ -150,7 +149,7 @@
                 });
 
                 if (response.ok && (await response.text()) === 'Accepted') {
-                    showStatusMessage('¡Ticket enviado con éxito! Gracias por tu solicitud.', 'success');
+                    showStatusMessage('¡Idea enviada con éxito! Gracias por tu iniciativa.', 'success');
                     form.reset();
                 } else {
                     throw new Error('La respuesta del servidor no fue la esperada.');
@@ -158,9 +157,9 @@
 
             } catch (error) {
                 console.error('Error al enviar el formulario:', error);
-                showStatusMessage('Hubo un error al enviar tu ticket. Por favor, inténtalo de nuevo.', 'error');
+                showStatusMessage('Hubo un error al enviar tu idea. Por favor, inténtalo de nuevo.', 'error');
             } finally {
-                buttonText.textContent = 'Enviar Ticket';
+                buttonText.textContent = 'Enviar Idea';
                 buttonSpinner.classList.add('hidden');
                 submitButton.disabled = false;
             }
