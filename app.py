@@ -22,11 +22,10 @@ st.markdown("""
         margin: 0.25rem;
     }
 
-    /* AÑADIDO: Línea separadora entre etapas */
-    /* Se añade un borde a la derecha de cada columna, excepto la última */
+    /* Línea separadora entre etapas */
     div[data-testid="stHorizontalBlock"] > div:not(:last-child) {
-        border-right: 2px solid #d1d5db; /* Color de la línea: gris claro */
-        padding-right: 1.5rem; /* Espacio entre la línea y el contenido de la columna */
+        border-right: 2px solid #d1d5db;
+        padding-right: 1.5rem;
     }
 
     /* Estilo para las tarjetas de las ideas */
@@ -34,7 +33,7 @@ st.markdown("""
         background-color: white;
         border-radius: 0.5rem;
         padding: 1rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem; /* Espacio para el botón de detalle */
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     }
     .kanban-card h3 {
@@ -100,9 +99,10 @@ def load_data(_worksheet):
     try:
         data = _worksheet.get_all_records()
         df = pd.DataFrame(data)
-        for col in ['ID Ticket', 'Estado', 'Prioridad', 'Título', 'Solicitante', 'Fecha Creacion']:
+        # Asegurarse que las columnas existan y tengan el tipo correcto
+        for col in ['ID Ticket', 'Estado', 'Prioridad', 'Título', 'Solicitante', 'Fecha Creacion', 'Descripcion']:
             if col not in df.columns:
-                df[col] = None
+                df[col] = '' # Usar string vacío como default
         if 'ID Ticket' in df.columns:
             df['ID Ticket'] = df['ID Ticket'].astype(str)
         return df
@@ -144,6 +144,18 @@ if gc:
                             <p>📅 <strong>Creado:</strong> {pd.to_datetime(row['Fecha Creacion']).strftime('%d/%m/%Y')}</p>
                         </div>
                         """, unsafe_allow_html=True)
+
+                        # --- NUEVO: Botón para ver detalle en ventana emergente ---
+                        if st.button("Ver detalle", key=f"detail_{ticket_id}", use_container_width=True):
+                            with st.dialog("Detalle de la Idea"):
+                                st.subheader(f"Idea: {row['Título']}")
+                                st.markdown(f"**ID:** {ticket_id}")
+                                st.markdown(f"**Solicitante:** {row['Solicitante']} ({row['Email']})")
+                                st.markdown(f"**Prioridad:** {priority} | **Estado:** {stage}")
+                                st.markdown("---")
+                                st.markdown("#### Descripción Completa")
+                                st.write(row['Descripcion'])
+
 
                         # El selector para mover la tarjeta
                         new_stage = st.selectbox(
